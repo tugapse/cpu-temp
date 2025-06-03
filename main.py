@@ -259,15 +259,20 @@ def main():
             sys.exit(0) # Exit after short output
     else:
         # Default interactive monitoring mode
-        while True:
-            clear_console()
-            try:
-                cpu_data_live = get_cpu_data_structured()
-                display_cpu_temperatures(cpu_data_live)
-            except Exception as e:
-                sys.stdout.write(f"{ANSI_RED}An error occurred: {e}{ANSI_RESET}\n")
-                sys.stdout.flush()
-            time.sleep(2)
+        try:
+            while True:
+                clear_console()
+                try:
+                    cpu_data_live = get_cpu_data_structured()
+                    display_cpu_temperatures(cpu_data_live)
+                except Exception as e:
+                    sys.stdout.write(f"{ANSI_RED}An error occurred: {e}{ANSI_RESET}\n")
+                    sys.stdout.flush()
+                time.sleep(2)
+        except KeyboardInterrupt:
+            sys.stdout.write(f"\n{ANSI_CYAN}Monitoring stopped.{ANSI_RESET}\n")
+            sys.stdout.flush()
+            sys.exit(0) # Exit cleanly
 
 if __name__ == "__main__":
     main()
